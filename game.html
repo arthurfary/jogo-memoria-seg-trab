@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 16px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #f8f0fc;
+      /* light lilac background */
+      color: #4b3069;
+      /* dark purple text for good contrast */
+    }
+
+    .game-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 0 16px;
+    }
+
+    @media (max-width: 480px) {
+      .game-container {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .card {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 8px;
+      background: #c8a2c8;
+      /* lilac shade for card back */
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card-content {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      padding: 8px;
+      text-align: center;
+      color: #4b3069;
+      /* dark purple for text content */
+    }
+
+    .card-symbol {
+      font-size: 0;
+      margin-bottom: 4px;
+      transition: font-size 0.3s ease;
+    }
+
+    .card-name {
+      font-size: 0;
+      transition: font-size 0.3s ease;
+      word-break: break-word;
+      line-height: 1.2;
+    }
+
+    .card.flipped {
+      background: #d3b1e0;
+      /* lighter lilac for flipped card */
+    }
+
+    .card.flipped .card-symbol {
+      font-size: 3em;
+    }
+
+    .card.flipped .card-name {
+      font-size: 1.6em;
+    }
+
+    @media (min-width: 481px) {
+      .card.flipped .card-symbol {
+        font-size: 2em;
+      }
+
+      .card.flipped .card-name {
+        font-size: 16px;
+      }
+    }
+
+
+    @media (max-width: 480px) {
+      .game-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .info-modal {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      z-index: 100;
+      max-width: 90%;
+      width: 400px;
+      background: #f3e1f5;
+      /* very light lilac for modal background */
+      color: #4b3069;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 99;
+      background: rgba(75, 48, 105, 0.5);
+      /* dark purple overlay with transparency */
+    }
+
+    .close-modal {
+      float: right;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #b565a7;
+      /* darker lilac for modal close button */
+      color: white;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 24px;
+      margin: 10px;
+      color: #4b3069;
+    }
+
+    #modalTitle {
+      margin-bottom: 12px;
+      padding-right: 40px;
+    }
+
+    #modalContent {
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="score">Pares encontrados: <span id="score">0</span>/8</div>
+  <div class="game-container" id="gameContainer"></div>
+  <div class="overlay" id="overlay"></div>
+  <div class="info-modal" id="infoModal">
+    <button class="close-modal" onclick="closeModal()">✕</button>
+    <h2 id="modalTitle"></h2>
+    <p id="modalContent"></p>
+  </div>
+
+  <script>
+    const cardData = [
+      {symbol: '👷', name: 'EPI', info: 'EPI é o significado de Equipamento de Proteção Individual'},
+      {symbol: '📜', name: 'NR 11', info: 'A NR 11 é a Norma Regulamentadora que trata diretamente dos processos logísticos'},
+      {symbol: '🛠️', name: 'Manutenção', info: 'Todos equipamentos em perfeitas condições de uso e com a manutenção em dia.'},
+      {symbol: '📝', name: 'Capacitação', info: 'A empresa deve oferecer, de forma periódica, treinamentos sobre saúde e segurança do trabalho, segurança na operação e uso correto de EPIs.'},
+      {symbol: '🚧', name: 'Isolamento e Sinalização', info: 'Durante a movimentação de cargas, as áreas utilizadas devem ser isoladas e sinalizadas para evitar acidentes com pessoas não envolvidas com a atividade.'},
+      {symbol: '🏗', name: 'Operação de Veículos', info: 'Somente operadores habilitados e autorizados podem operar veículos e equipamentos de movimentação de cargas'},
+      {symbol: '🗺️', name: 'Mapas de Riscos', info: 'Ferramenta visual que identifica os riscos presentes em cada área do ambiente de trabalho'},
+      {symbol: '📦', name: 'Armazenamento de Materiais', info: 'O armazenamento também pode oferecer risco aos funcionários que desempenham esta função'}
+    ];
+
+    let flippedCards = [];
+    let matchedPairs = 0;
+    let cards = [];
+    let isProcessing = false;
+
+    function createCards() {
+      cards = [...cardData, ...cardData]
+        .sort(() => Math.random() - 0.5)
+        .map((card, index) => ({
+          ...card,
+          id: index,
+          isFlipped: false,
+          isMatched: false
+        }));
+
+      const gameContainer = document.getElementById('gameContainer');
+      gameContainer.innerHTML = '';
+
+      cards.forEach(card => {
+        const cardElement = document.createElement('button');
+        cardElement.className = 'card';
+        cardElement.setAttribute('data-id', card.id);
+        cardElement.onclick = () => flipCard(card.id);
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'card-content';
+
+        const symbolSpan = document.createElement('div');
+        symbolSpan.className = 'card-symbol';
+        symbolSpan.textContent = card.symbol;
+
+        const nameSpan = document.createElement('div');
+        nameSpan.className = 'card-name';
+        nameSpan.textContent = card.name;
+
+        contentDiv.appendChild(symbolSpan);
+        contentDiv.appendChild(nameSpan);
+        cardElement.appendChild(contentDiv);
+
+        gameContainer.appendChild(cardElement);
+      });
+    }
+
+
+    function flipCard(cardId) {
+      if (isProcessing) return; // Prevent new flips during processing
+
+      const card = cards[cardId];
+      if (card.isFlipped || card.isMatched || flippedCards.length >= 2) return;
+
+      card.isFlipped = true;
+      updateCardDisplay(cardId);
+      flippedCards.push(card);
+
+      if (flippedCards.length === 2) {
+        checkMatch();
+      }
+    }
+    function updateCardDisplay(cardId) {
+      const cardElement = document.querySelector(`[data-id="${cardId}"]`);
+      const card = cards[cardId];
+
+      if (card.isFlipped || card.isMatched) {
+        cardElement.classList.add('flipped');
+      } else {
+        cardElement.classList.remove('flipped');
+      }
+    }
+    function checkMatch() {
+      const [card1, card2] = flippedCards;
+      isProcessing = true; // Set flag when checking for a match
+
+      if (card1.name === card2.name) {
+        card1.isMatched = true;
+        card2.isMatched = true;
+        matchedPairs++;
+        document.getElementById('score').textContent = matchedPairs;
+
+        showModal(card1);
+
+        if (matchedPairs === 8) {
+          setTimeout(() => {
+            alert('Congratulations! You\'ve found all pairs!');
+            resetGame();
+          }, 1000);
+        }
+      } else {
+        setTimeout(() => {
+          card1.isFlipped = false;
+          card2.isFlipped = false;
+          updateCardDisplay(card1.id);
+          updateCardDisplay(card2.id);
+        }, 1000);
+      }
+
+      setTimeout(() => {
+        isProcessing = false; // Re-enable clicking after flip-back is complete
+        flippedCards = [];
+      }, 1000);
+    }
+
+    function showModal(card) {
+      document.getElementById('modalTitle').textContent = card.name;
+      document.getElementById('modalContent').textContent = card.info;
+      document.getElementById('overlay').style.display = 'block';
+      document.getElementById('infoModal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('infoModal').style.display = 'none';
+    }
+
+    function resetGame() {
+      matchedPairs = 0;
+      document.getElementById('score').textContent = '0';
+      createCards();
+    }
+
+    createCards();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mais Trabalhos - Auroras no GP Boticário</title>
+  <style>
+    /* Global Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 16px;
+      font-family: system-ui, -apple-system, sans-serif;
+      background-color: #f8f0fc;
+      /* light lilac background */
+      color: #4b3069;
+      /* dark purple text */
+      text-align: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #f3e1f5;
+      /* very light lilac background */
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #4b3069;
+      /* dark purple text */
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    /* Video Section */
+    .video-section {
+      margin: 20px 0;
+    }
+
+    .video-title {
+      font-size: 20px;
+      color: #4b3069;
+      margin-bottom: 8px;
+    }
+
+    .video-container {
+      max-width: 100%;
+      aspect-ratio: 16/9;
+      background-color: #d3b1e0;
+      /* light lilac for video placeholder background */
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 22px;
+      }
+
+      .video-title {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Mais Trabalhos das Auroras no GP Boticário</h1>
+
+    <!-- Video Section 1 -->
+    <div class="video-section">
+      <div class="video-title">Storytelling de segurança do trabalho na Logística</div>
+      <div class="video-container">
+        <!-- Video file located in the parent directory -->
+        <video controls>
+          <source src="./Segurancanotrabalho.mp4" type="video/mp4">
+          Seu navegador não suporta a tag de vídeo.
+        </video>
+      </div>
+    </div>
+
+    <!-- Video Section 2 -->
+    <div class="video-section">
+      <div class="video-title">Simulação da esteira com o leitor de código de barras</div>
+      <div class="video-container">
+        <!-- Video file located in the parent directory -->
+        <video controls>
+          <source src="./esteira.mp4" type="video/mp4">
+          Seu navegador não suporta a tag de vídeo.
+        </video>
+      </div>
+    </div>
+
+    <!-- Video Section 3 -->
+    <div class="video-section">
+      <div class="video-title">Raspberry PI 3 com o leitor de código de barras</div>
+      <div class="video-container">
+        <!-- Video file located in the parent directory -->
+        <video controls>
+          <source src="./pi3.mp4" type="video/mp4">
+          Seu navegador não suporta a tag de vídeo.
+        </video>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
