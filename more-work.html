@@ -58,6 +58,8 @@
       /* light lilac for video placeholder background */
       border-radius: 8px;
       overflow: hidden;
+      align-items: center;
+
     }
 
     .video-container video {
@@ -67,6 +69,21 @@
       border-radius: 8px;
     }
 
+    /* Image Section within Video */
+    .image-gallery {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .image-gallery img {
+      max-width: 100%;
+      border-radius: 8px;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+    }
+
     @media (max-width: 480px) {
       h1 {
         font-size: 22px;
@@ -74,6 +91,10 @@
 
       .video-title {
         font-size: 18px;
+      }
+
+      .image-gallery img {
+        max-width: 100%;
       }
     }
   </style>
@@ -87,7 +108,6 @@
     <div class="video-section">
       <div class="video-title">Storytelling de segurança do trabalho na Logística</div>
       <div class="video-container">
-        <!-- Video file located in the parent directory -->
         <video controls>
           <source src="./segtrab.mp4" type="video/mp4">
           Seu navegador não suporta a tag de vídeo.
@@ -99,7 +119,6 @@
     <div class="video-section">
       <div class="video-title">Simulação da esteira com o leitor de código de barras</div>
       <div class="video-container">
-        <!-- Video file located in the parent directory -->
         <video controls>
           <source src="./esteira.mp4" type="video/mp4">
           Seu navegador não suporta a tag de vídeo.
@@ -107,22 +126,26 @@
       </div>
     </div>
 
-    <!-- Video Section 3 -->
+    <!-- Video Section 3 with Images Below -->
     <div class="video-section">
       <div class="video-title">Raspberry PI 3 com o leitor de código de barras</div>
       <div class="video-container">
-        <!-- Video file located in the parent directory -->
         <video controls>
           <source src="./pi3.mp4" type="video/mp4">
           Seu navegador não suporta a tag de vídeo.
         </video>
       </div>
+      <!-- Image Gallery for Additional Images -->
+      <div class="image-gallery">
+        <img src="./interpy1.jpeg" alt="Interface do Leitor">
+        <img src="./interpy2.jpeg" alt="Interface do Leitor 2">
+      </div>
     </div>
 
+    <!-- Video Section 4 -->
     <div class="video-section">
       <div class="video-title">Aplicativo do Manual</div>
       <div class="video-container">
-        <!-- Video file located in the parent directory -->
         <video controls>
           <source src="./app manual.mp4" type="video/mp4">
           Seu navegador não suporta a tag de vídeo.
@@ -130,9 +153,17 @@
       </div>
     </div>
 
+    <div class="video-section">
+      <div class="video-title">Letreiro Digital</div>
+      <div class="video-container">
+        <!-- Image Gallery for Additional Images -->
+        <div class="image-gallery">
+          <img src="./letreiro.jpeg" alt="Letreiro">
+        </div>
+      </div>
 
 
-  </div>
+    </div>
 </body>
 
 </html>
