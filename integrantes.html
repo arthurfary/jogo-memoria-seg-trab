@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auroras no GP Boticário</title>
+  <title>Integrantes - Auroras no GP Boticário</title>
   <style>
     /* Global Styles */
     * {
@@ -51,6 +51,19 @@
       margin: 8px 0;
     }
 
+    /* Image Section */
+    .image-container {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+
     /* Buttons */
     .button-container {
       align-items: center;
@@ -80,6 +93,19 @@
       /* dark purple */
     }
 
+    .member-list {
+      text-align: left;
+      list-style: none;
+      padding: 0;
+      margin-top: 20px;
+      color: #4b3069;
+    }
+
+    .member-list li {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
     @media (max-width: 480px) {
       h1 {
         font-size: 22px;
@@ -98,24 +124,23 @@
 
 <body>
   <div class="container">
-    <h1>Objetivo das Auroras no GP Boticário</h1>
-    <div class="content">
-      <p>A presença de mulheres na tecnologia é um desafio que ainda precisa ser superado, apesar de avanços recentes. A
-        participação feminina é baixa e a área é predominantemente dominada por homens.</p>
-      <p><strong>“Gurias na tecnologia!”</strong></p>
-      <p>Promover a igualdade de gênero: A inclusão de mulheres na tecnologia ajuda a combater a discriminação e a
-        promover a igualdade de gênero.</p>
-      <p>Impulsionar a inovação: A diversidade de perspectivas e ideias na tecnologia pode levar a soluções mais
-        inovadoras e criativas.</p>
-      <p>Criar produtos mais inclusivos: A participação de mulheres no desenvolvimento de produtos pode resultar em
-        designs mais inclusivos e de fácil manuseio.</p>
-      <p>Contribuir para o crescimento econômico: Aumentar o número de mulheres na tecnologia pode ajudar a reduzir a
-        lacuna nas habilidades e a contribuir para o crescimento econômico.</p>
+    <h1>Integrantes do Projeto</h1>
+    <div class="image-container">
+      <img src="./participantes.png" alt="Imagem dos integrantes do projeto">
     </div>
+    <ul class="member-list">
+      <li>Giovanna Beatriz Rodrigues de Souza</li>
+      <li>Anelize Massanares de Campos</li>
+      <li>Helena Ortiz Camargo</li>
+      <li>Ana Clara Broeto Maçaneiro</li>
+      <li>Ranieli Corrêa Januário</li>
+      <li>Eli de Albuquerque (Padrinho)</li>
+      <li>Professor Lincoln Nilo Pereira</li>
+    </ul>
     <div class="button-container">
       <a href="game.html" class="button">Jogar jogo da memória</a>
-      <a href="more-work.html" class="button">Trabalhos Feitos</a>
-      <a href="integrantes.html" class="button">Integrantes</a>
+      <a href="more-work.html" class="button">Mais Trabalhos</a>
+      <a href="index.html" class="button">Voltar para Início</a>
     </div>
   </div>
 </body>

@@ -3,6 +3,7 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo da Memória: Segurança no Trabalho</title>
   <style>
     * {
       box-sizing: border-box;
@@ -166,6 +167,9 @@
 </head>
 
 <body>
+  <div class="score">
+    <h1>Jogo da Memória: Segurança no Trabalho</h1>
+  </div>
   <div class="score">Pares encontrados: <span id="score">0</span>/8</div>
   <div class="game-container" id="gameContainer"></div>
   <div class="overlay" id="overlay"></div>
@@ -269,7 +273,7 @@
 
         if (matchedPairs === 8) {
           setTimeout(() => {
-            alert('Congratulations! You\'ve found all pairs!');
+            alert('Parabéns! Você ecnontrou todos os pares!');
             resetGame();
           }, 1000);
         }
